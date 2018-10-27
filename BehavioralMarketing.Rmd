@@ -1,0 +1,30 @@
+---
+title: 'Warenkorbanalyse '
+output:
+  html_notebook: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+Wir versuchen heute anhand von gesammelten Kundendaten eine Warenkorbanalyse durchzuführen und 
+Produktempfehlungen daraus abzuleiten.
+
+Nehmen wir an, der Server unseres Webshops speichert folgende Transaktionen eines Kunden:
+
+
+```{r echo=TRUE}
+library(ggplot2)
+df <- read.csv("~/Downloads/Online Retail.csv")
+df <- df[complete.cases(df), ]
+df$DayTime <- sub(".{8,} ","",df$InvoiceDate)
+head(df)
+```
+
+```{r}
+t <- as.factor(sub(":\\d*","",df$DayTime))
+hist <- ggplot(aes(x=t), data = df)
+hist + geom_histogram(stat="count")
+```
+
+
